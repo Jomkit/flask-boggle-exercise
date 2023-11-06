@@ -32,7 +32,7 @@ class Boggle():
     def check_valid_word(self, board, word):
         """Check if a word is a valid word in the dictionary and/or the boggle board"""
 
-        word_exists = word in self.words
+        word_exists = word in self.words #case sensitive
         valid_word = self.find(board, word.upper())
 
         if word_exists and valid_word:

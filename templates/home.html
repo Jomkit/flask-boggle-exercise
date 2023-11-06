@@ -5,6 +5,10 @@
 <h1>Let's Play Boggle!</h1>
 
 <div class="game-board">
+    <div class="container">
+        <p>Remaining Time: <span id="timer"></span></p>
+        <p>Score: <span id="score">0</span></p>
+    </div>
 <table>
     {% for row in session['board'] %}
     <tr>
@@ -18,8 +22,14 @@
 
 <form id="boggle-form" method="post">
     <label for="word">Check Word!</label>
-    <input type="text" name="word" id="word" placeholder="word">
+    <input type="text" name="word" id="word" autocomplete="off" placeholder="word">
     <button type="submit">Submit</button>
+    
 </form>
+<div class="container">
+    <span>Result:</span>
+    <span class="result"></span>
+</div>
+
 </div>
 {% endblock %}
