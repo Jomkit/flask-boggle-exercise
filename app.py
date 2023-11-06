@@ -14,6 +14,8 @@ board = boggle_game.make_board()
 def index():
     """Home Page Route"""
     session['board'] = board
+    num_played = session.get('num_played', 0)
+    session['num_played'] = num_played
 
     return render_template('home.html')
 
@@ -28,3 +30,26 @@ def check_word():
     result = boggle_game.check_valid_word(board, word)
 
     return result
+
+@app.route('/store-statistics', methods=['post'])
+def store_statistics():
+    """ 
+    store_statistics()
+    Compares the score of the current game of
+    boggle, if greater than stored hi-score then
+    update hi-score. Also counts the number of times
+    played
+    """
+    num_played = session.get('num_played', 0)
+    session['num_played'] = num_played + 1
+
+    res = request.get_json()
+    score = res.get('score')
+    session['curr-hi-score'] = session.get('curr-hi-score', 0)
+    new_hi_score = session['curr-hi-score']
+
+    if session['curr-hi-score'] < score:
+        session['curr-hi-score'] = score
+        new_hi_score = score
+    
+    return jsonify(new_hi_score)

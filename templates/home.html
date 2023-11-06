@@ -6,8 +6,18 @@
 
 <div class="game-board">
     <div class="container">
+        <p>Number of times played: {{ session['num_played'] }}</p>
         <p>Remaining Time: <span id="timer"></span></p>
+        <p>High Score: <span id="hi-score">{{ session.get('curr-hi-score', 0) }}</span></p>
         <p>Score: <span id="score">0</span></p>
+    </div>
+
+    <!-- Future functionality -->
+    <div class="options">
+        <ul>
+            <li><a href="#" id="reset-stats">Reset Statistics</a></li>
+            <li><a href="#" id="new-game">New Game</a></li>
+        </ul>
     </div>
 <table>
     {% for row in session['board'] %}
@@ -22,7 +32,7 @@
 
 <form id="boggle-form" method="post">
     <label for="word">Check Word!</label>
-    <input type="text" name="word" id="word" autocomplete="off" placeholder="word">
+    <input type="text" name="word" id="word" autocomplete="off" placeholder="word"> 
     <button type="submit">Submit</button>
     
 </form>

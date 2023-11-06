@@ -2,6 +2,9 @@ const $form = $("#boggle-form");
 const $word = $("#word");
 const $resultField = $(".result");
 const $timer = $("#timer");
+const $hiScore = $('#hi-score');
+const stop = 0;
+
 let score = 0;
 
 async function submitHandler(evt){
@@ -40,14 +43,19 @@ function scoreKeeper(word){
 
 /* Countdown Timer */
 function cntDwnTimer(start = 60){
-    const stop = setInterval(()=>{
+    const stopCntr = setInterval(()=>{
         $timer.html(start);
         start--;
         
-        if(start < 50){
-            clearInterval(stop);
+        // Ends timer and displays "Game Over" when timer
+        // reaches 0. Also calls statistics(score) to 
+        // determine if new hi-score
+        if(start < stop){
+            clearInterval(stopCntr);
             $timer.html("<b>Time's Up!</b>");
             $word.attr("disabled", true);
+            $resultField.html("<b>Game Over</b>");
+            statistics(score);
             return;
         }
     }, 1000, start);
@@ -56,3 +64,19 @@ function cntDwnTimer(start = 60){
 }
 
 cntDwnTimer();
+
+/** statistics() - Store statistics
+ * 
+ * Store high score
+ */
+async function statistics(score) {
+    const res = await axios({
+        method: 'post',
+        url: '/store-statistics',
+        data: {
+            'score': score,
+        }
+    })
+
+    $hiScore.html = res.data;
+}
