@@ -6,6 +6,10 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "SECRET1KEY2!"
 debug = DebugToolbarExtension(app)
 
+#For testing
+app.config['TESTING'] = True
+app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
+
 #Initialized variables
 boggle_game = Boggle()
 board = boggle_game.make_board()
