@@ -25,7 +25,7 @@ def check_word():
     """
     Check word and return whether it is ok,
     not-on-board, or not-word
-    """
+    """ 
     board = session['board']
     res = request.get_json()
     word = res.get('word')
@@ -58,6 +58,11 @@ def store_statistics():
 
 @app.route('/reset-stats')
 def reset_statistics():
+    """
+    reset_statistics()
+    Resets the values in the session for curr-hi-score and 
+    num_played to zero, then redirects to home
+    """
     session['curr-hi-score'] = 0
     session['num_played'] = 0
     return redirect('/')
