@@ -1,22 +1,19 @@
 from boggle import Boggle
-from flask import Flask, session, request,  render_template, jsonify
+from flask import Flask, session, request,  render_template, jsonify, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "SECRET1KEY2!"
 debug = DebugToolbarExtension(app)
-
-#For testing
-app.config['TESTING'] = True
-app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 #Initialized variables
 boggle_game = Boggle()
-board = boggle_game.make_board()
 
 @app.route('/')
-def index():
+def homepage():
     """Home Page Route"""
+    board = boggle_game.make_board()
     session['board'] = board
     num_played = session.get('num_played', 0)
     session['num_played'] = num_played
@@ -29,6 +26,7 @@ def check_word():
     Check word and return whether it is ok,
     not-on-board, or not-word
     """
+    board = session['board']
     res = request.get_json()
     word = res.get('word')
     result = boggle_game.check_valid_word(board, word)
@@ -57,3 +55,9 @@ def store_statistics():
         new_hi_score = score
     
     return jsonify(new_hi_score)
+
+@app.route('/reset-stats')
+def reset_statistics():
+    session['curr-hi-score'] = 0
+    session['num_played'] = 0
+    return redirect('/')

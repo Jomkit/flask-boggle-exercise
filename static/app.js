@@ -4,11 +4,20 @@ const $resultField = $(".result");
 const $timer = $("#timer");
 const $hiScore = $('#hi-score');
 const stop = 0;
+let repeatWords = [];
 
 let score = 0;
 
 async function submitHandler(evt){
     evt.preventDefault();
+    const userWord = $word.val();
+    
+    if(repeatWords.includes(userWord)){
+        $word.val('');
+        return $resultField.html('<b>Already Guessed</b>');
+    }
+
+    repeatWords.push(userWord);
     
     // axios post request to flask server, checks
     // if word is on boggle-board and responds with result
@@ -16,7 +25,7 @@ async function submitHandler(evt){
         method: 'post',
         url: '/check-word',
         data: {
-            'word': $word.val()
+            'word': userWord
         }
     })
     
@@ -25,7 +34,7 @@ async function submitHandler(evt){
 
     // result == 'ok', update score
     if(result=='ok'){
-        scoreKeeper($word.val());
+        scoreKeeper(userWord);
     }
     
     $word.val('');
