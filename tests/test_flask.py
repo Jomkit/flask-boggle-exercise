@@ -12,12 +12,25 @@ class FlaskTests(TestCase):
         """set up each test"""
         self.client = app.test_client()
         app.config['TESTING'] = True
+        self.boggle_game = Boggle()
+
+    def test_redirect_board_size(self):
+        with self.client:
+            resp = self.client.post('/set-board-size', data={'board-size':'5'})
+
+            self.assertEqual(resp.status_code, 302)
+            self.assertEqual(resp.location, '/home')
+
+    def test_redirect_set_board_size_followed(self):
+        with self.client:
+            resp = self.client.post('/set-board-size', data={'board-size':'5'}, follow_redirects=True)
 
     # TODO -- write tests for every view function
     def test_homepage(self):
         with self.client:
 
-            resp = self.client.get('/')
+
+            resp = self.client.get('/home')
             html = resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)

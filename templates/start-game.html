@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/app.css">
+    <title>Start Game</title>
+</head>
+<body>
+    <div style="background-color: blanchedalmond; border-radius: 1em; margin-top: 30vh; padding: 1.5em;">
+        <form action="/set-board-size" method="post" style="text-align: center;">
+        <label for="board-size">Please input your board size:</label>
+        <input type="number" min="4" max="16" name="board-size" id="board-size" placeholder="5">
+        <br>
+        <button type="submit" style="margin: 1em;">Play Game!</button>
+    </form>
+    </div>
+    
+</body>
+</html>

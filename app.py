@@ -11,6 +11,20 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 boggle_game = Boggle()
 
 @app.route('/')
+def play():
+    return render_template('start-game.html')
+
+@app.route('/set-board-size', methods=['post'])
+def set_board_size():
+    """Sets the board size, default 5"""
+    board_size = request.form.get('board-size')
+    if board_size == '':
+        board_size = 5
+    global boggle_game
+    boggle_game = Boggle(int(board_size))
+    return redirect('/home')
+
+@app.route('/home')
 def homepage():
     """Home Page Route"""
     board = boggle_game.make_board()
